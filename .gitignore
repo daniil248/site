@@ -1,0 +1,15 @@
+# IDE
+.idea/
+*.iml
+
+# Bot / env (не пушим)
+ad/
+.env
+*.env
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
