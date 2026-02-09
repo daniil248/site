@@ -39,13 +39,30 @@
         message: formData.get('message')
       };
 
-      // Здесь можно отправить на свой бэкенд или в Telegram Bot API
-      // Пример: fetch('/api/lead', { method: 'POST', body: JSON.stringify(data) });
-      console.log('Lead:', data);
-
-      form.style.display = 'none';
-      var success = document.getElementById('form-success');
-      if (success) success.classList.add('visible');
+      // Отправка на backend
+      fetch('/api/lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(result) {
+        if (result.success) {
+          form.style.display = 'none';
+          var success = document.getElementById('form-success');
+          if (success) success.classList.add('visible');
+        } else {
+          alert('Ошибка отправки. Попробуйте написать напрямую в Telegram.');
+        }
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+        alert('Ошибка отправки. Попробуйте написать напрямую в Telegram.');
+      });
     });
   }
 })();

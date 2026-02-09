@@ -443,6 +443,7 @@ section {
 }
 .cta-block-large p { font-size: 1.1rem; margin-bottom: 24px; }
 
+/* Subpage: value props, pricing, promise */
 .benefits-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
