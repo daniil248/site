@@ -169,37 +169,45 @@ a:hover { color: var(--accent-dim); text-decoration: underline; }
   overflow: hidden;
 }
 
-/* ECG Pulse line animation */
+/* Animated ECG pulse line */
 .hero::after {
   content: '';
   position: absolute;
   bottom: 15%;
-  left: -100%;
-  width: 100%;
+  left: 0;
+  right: 0;
   height: 100px;
-  background-image: url("data:image/svg+xml,%3Csvg width='800' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 L180,50 L185,50 L190,20 L195,50 L200,50 L205,10 L210,80 L215,50 L220,45 L225,50 L800,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-size: 800px 100px;
-  filter: drop-shadow(0 0 8px rgba(0, 212, 170, 0.8)) drop-shadow(0 0 15px rgba(0, 212, 170, 0.5));
-  animation: pulse-ecg 3s linear infinite;
+  background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-dasharray='0,1200' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.8)) drop-shadow(0 0 20px rgba(0, 212, 170, 0.5));
+  animation: ecg-pulse 6s ease-in-out infinite;
   z-index: 0;
-  opacity: 0;
 }
 
-@keyframes pulse-ecg {
-  0% {
-    left: -100%;
-    opacity: 0;
+@keyframes ecg-pulse {
+  0%, 100% {
+    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
+    opacity: 0.3;
   }
-  5% {
+  10% {
+    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
+  12% {
+    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50 230,20 240,80 250,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
     opacity: 1;
   }
-  95% {
+  15% {
+    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50 230,20 240,80 250,50 260,45 270,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
     opacity: 1;
   }
-  100% {
-    left: 100%;
-    opacity: 0;
+  20% {
+    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50 230,20 240,80 250,50 260,45 270,50 400,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
+    opacity: 0.8;
+  }
+  30% {
+    opacity: 0.3;
   }
 }
 
@@ -437,15 +445,13 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
-  color: #ffffff;
+  font-size: 1rem;
+  color: #ffffff !important;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   position: relative;
   overflow: hidden;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 4px 16px rgba(0, 0, 0, 0.7);
-  letter-spacing: -0.01em;
-  z-index: 5;
+  letter-spacing: -0.02em;
 }
 
 .case-placeholder::before {
@@ -453,12 +459,18 @@ section {
   position: absolute;
   inset: 0;
   background: rgba(10, 11, 13, 0.67);
-  z-index: 1;
+  z-index: 0;
 }
 
-/* Text content on top */
-.case-card .case-placeholder {
-  z-index: 2;
+/* Text content on top with strong shadow */
+.case-placeholder > * {
+  position: relative;
+  z-index: 10;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 1),
+    0 4px 8px rgba(0, 0, 0, 0.9),
+    0 8px 16px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(0, 212, 170, 0.3);
 }
 
 /* Unique backgrounds for each card type with real images */
