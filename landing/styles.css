@@ -169,45 +169,54 @@ a:hover { color: var(--accent-dim); text-decoration: underline; }
   overflow: hidden;
 }
 
-/* Animated ECG pulse line */
-.hero::after {
+/* Continuous baseline - always visible */
+.hero::before {
   content: '';
   position: absolute;
-  bottom: 15%;
+  bottom: 30%;
   left: 0;
   right: 0;
-  height: 100px;
-  background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-dasharray='0,1200' /%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.8)) drop-shadow(0 0 20px rgba(0, 212, 170, 0.5));
-  animation: ecg-pulse 6s ease-in-out infinite;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    rgba(0, 212, 170, 0.4) 5%,
+    rgba(0, 212, 170, 0.7) 50%,
+    rgba(0, 212, 170, 0.4) 95%,
+    transparent 100%
+  );
   z-index: 0;
 }
 
-@keyframes ecg-pulse {
-  0%, 100% {
-    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
-    opacity: 0.3;
+/* ECG pulse traveling across the line */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: calc(30% - 40px);
+  left: -100px;
+  width: 100px;
+  height: 80px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 L20,40 L25,38 L30,40 L35,10 L40,70 L45,40 L50,36 L55,40 L100,40' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.9)) drop-shadow(0 0 20px rgba(0, 212, 170, 0.7));
+  animation: pulse-travel 3s linear infinite;
+  z-index: 1;
+}
+
+@keyframes pulse-travel {
+  0% {
+    left: -100px;
+    opacity: 0;
   }
-  10% {
-    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
-    opacity: 0.6;
-  }
-  12% {
-    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50 230,20 240,80 250,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
+  5% {
     opacity: 1;
   }
-  15% {
-    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50 230,20 240,80 250,50 260,45 270,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
+  95% {
     opacity: 1;
   }
-  20% {
-    background-image: url("data:image/svg+xml,%3Csvg width='1200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='0,50 200,50 210,48 220,50 230,20 240,80 250,50 260,45 270,50 400,50' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
-    opacity: 0.8;
-  }
-  30% {
-    opacity: 0.3;
+  100% {
+    left: calc(100% + 100px);
+    opacity: 0;
   }
 }
 
@@ -445,13 +454,19 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  color: #ffffff !important;
+  font-size: 1.05rem;
+  color: #ffffff;
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 900;
   position: relative;
   overflow: hidden;
   letter-spacing: -0.02em;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 1),
+    0 4px 8px rgba(0, 0, 0, 0.9),
+    0 8px 16px rgba(0, 0, 0, 0.8),
+    0 1px 3px rgba(0, 212, 170, 0.4);
+  z-index: 5;
 }
 
 .case-placeholder::before {
@@ -459,18 +474,7 @@ section {
   position: absolute;
   inset: 0;
   background: rgba(10, 11, 13, 0.67);
-  z-index: 0;
-}
-
-/* Text content on top with strong shadow */
-.case-placeholder > * {
-  position: relative;
-  z-index: 10;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 1),
-    0 4px 8px rgba(0, 0, 0, 0.9),
-    0 8px 16px rgba(0, 0, 0, 0.8),
-    0 0 20px rgba(0, 212, 170, 0.3);
+  z-index: -1;
 }
 
 /* Unique backgrounds for each card type with real images */
