@@ -169,62 +169,6 @@ a:hover { color: var(--accent-dim); text-decoration: underline; }
   overflow: hidden;
 }
 
-/* Baseline - always visible */
-.hero::before {
-  content: '';
-  position: absolute;
-  bottom: 30%;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(0, 212, 170, 0.3) 10%,
-    rgba(0, 212, 170, 0.7) 50%,
-    rgba(0, 212, 170, 0.3) 90%,
-    transparent 100%
-  );
-  z-index: 0;
-}
-
-/* Heartbeat pulse - beats in center */
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: calc(30% - 40px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 80px;
-  background-image: url("data:image/svg+xml,%3Csvg width='150' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 L40,40 L45,38 L50,40 L55,10 L60,70 L65,40 L70,36 L75,40 L150,40' stroke='%2300d4aa' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.9)) drop-shadow(0 0 20px rgba(0, 212, 170, 0.7));
-  animation: heartbeat 2s ease-in-out infinite;
-  z-index: 1;
-  opacity: 0;
-}
-
-@keyframes heartbeat {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-  10% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-  20% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-}
-
 .hero-grid {
   position: absolute;
   inset: 0;
@@ -824,4 +768,65 @@ section {
 
   .hero { padding-top: 100px; }
   .hero-cta { flex-direction: column; }
+}
+
+/* --- Lightning Effect --- */
+.lightning-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.05s;
+}
+
+.lightning-container.active {
+  opacity: 1;
+}
+
+.lightning-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at var(--strike-x, 50%) var(--strike-y, 30%), 
+    rgba(0, 212, 170, 0.4) 0%, 
+    rgba(0, 212, 170, 0.15) 30%, 
+    transparent 60%);
+  animation: flash 0.3s ease-out;
+}
+
+@keyframes flash {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  20% { opacity: 0.3; }
+  30% { opacity: 0.9; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.lightning-bolt {
+  position: absolute;
+  top: 0;
+  left: var(--strike-x, 50%);
+  transform: translateX(-50%);
+  width: auto;
+  height: 100vh;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 170, 0.9)) 
+          drop-shadow(0 0 16px rgba(0, 212, 170, 0.7))
+          drop-shadow(0 0 24px rgba(0, 212, 170, 0.5));
+  animation: bolt-appear 0.3s ease-out;
+}
+
+@keyframes bolt-appear {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  20% { opacity: 0.4; }
+  30% { opacity: 0.8; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.lightning-bolt svg {
+  display: block;
+  width: auto;
+  height: 100%;
 }
